@@ -1,13 +1,15 @@
 import { useParams, Link } from "react-router-dom";
 import products from "../products";
+import { useGetProductByIdQuery } from "../hooks/queries/productQueries";
 import Rating from "./Rating";
 
 const ProductScreen = () => {
-  const { id } = useParams();
+  const { id = "" } = useParams();
 
-  const product = products?.find((p) => p._id === id);
-  if (product === undefined) {
-    return <div>No rating</div>;
+  const { data: product } = useGetProductByIdQuery(id);
+
+  if (!product) {
+    return <div>No products found</div>;
   }
 
   return (

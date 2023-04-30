@@ -10,7 +10,12 @@ interface MyError {
 const Homescreen: React.FC = () => {
   const { data: products, isLoading, error } = useGetProductsQuery();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className='flex justify-center'>
+        <button className='btn btn-wide loading'>Loading</button>
+      </div>
+    );
 
   if (error) {
     const myError = error as MyError;
@@ -20,7 +25,7 @@ const Homescreen: React.FC = () => {
   return (
     <>
       <h1 className='text-2xl'>Latest Products</h1>
-      <div className='flex mx-12'>
+      <div className='flex flex-wrap mx-6'>
         {products?.map((product) => (
           <Product key={product._id} product={product} />
         ))}

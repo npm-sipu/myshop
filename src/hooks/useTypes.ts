@@ -11,6 +11,13 @@ export interface Item {
     numReviews: number;
   }
 
+
+export interface CartItem {
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+  }
   // const { data: product } = useGetProductByIdQuery(id);
 
   // const idNumber = Number(id);

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 import Rating from "./Rating";
 
@@ -16,21 +17,48 @@ interface product {
 }
 
 const Product: React.FC<{ product?: product }> = ({ product }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
-    <div className='h-64 w-64 m-2 p-4'>
-      <Link to={`/product/${product?._id}`}>
-        <img src={product?.image} alt='product' />
-      </Link>
-      <div>
+    <div
+      className='card w-1/4 bg-base-100 shadow-xl'
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <figure className='px-10 pt-10'>
         <Link to={`/product/${product?._id}`}>
-          <h3>
-            <strong>{product?.name}</strong>
-          </h3>
+          <img src={product?.image} alt='product' />
         </Link>
-        <div>
-          <Rating product={product} />
-        </div>
+      </figure>
+      <div className='card-body items-center text-center'>
+        <Link to={`/product/${product?._id}`}>
+          <h2>
+            <strong>{product?.name}</strong>
+          </h2>
+        </Link>
+        <Rating product={product} />
+
         <h3>${product?.price}</h3>
+        <div className='card-actions'>
+          {isHovered && (
+            <button className='btn btn-primary mt-2 transition-all duration-300'>
+              Buy Now
+            </button>
+          )}
+          {isHovered && (
+            <button className='btn btn-primary mt-2 transition-all duration-300'>
+              Add to Cart
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

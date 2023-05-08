@@ -10,11 +10,9 @@ import Rating from "./Rating";
 const ProductScreen: React.FC = () => {
   const navigate = useNavigate();
   const { id = "" } = useParams();
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
 
-  const adToCartHandler = () => {
-    navigate(`/cart/${id}?qty=${qty}`);
-  };
+  const dispatch = useDispatch();
 
   const setProductQty = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     const value = +e.target.value;
@@ -22,6 +20,14 @@ const ProductScreen: React.FC = () => {
   }, []);
 
   const { data: product } = useGetProductByIdQuery(id);
+
+  const addToCartHandler = () => {
+    const { _id: productId, name: productName, price: productPrice } = product!;
+    dispatch(
+      addItem({ id: productId, name: productName, price: productPrice, qty })
+    );
+    navigate(`/cart/${id}?qty=${qty}`);
+  };
 
   if (!product) {
     return <div>No products found</div>;
@@ -68,7 +74,7 @@ const ProductScreen: React.FC = () => {
             } ${
               !(product?.countInStock > 0) && "opacity-50 cursor-not-allowed"
             }`}
-            onClick={adToCartHandler}
+            onClick={addToCartHandler}
           >
             Add to Cart
           </button>

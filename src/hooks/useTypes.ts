@@ -16,16 +16,5 @@ export interface CartItem {
     id: string;
     name: string;
     price: number;
-    quantity: number;
+    qty: number;
   }
-  // const { data: product } = useGetProductByIdQuery(id);
-
-  // const idNumber = Number(id);
-  // if (isNaN(idNumber) || id === undefined) {
-  // // handle the case where the id is not a number or is undefined
-  // } else {
-  // const { data: product } = useGetProductByIdQuery(idNumber);
-  // // rest of your code that uses the product data
-  // }
-
-  // const product = products?.find((p) => p._id === id);

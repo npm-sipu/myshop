@@ -40,39 +40,54 @@ const CartScreen: React.FC = () => {
   );
 
   return (
-    <div>
+    <div className='mx-10'>
       <h1>Cart</h1>
       {cartItems.length === 0 ? (
-        <p>Your cart is empty</p>
+        <div className='grid place-content-center'>
+          <p>Your cart is empty</p>
+        </div>
       ) : (
         <>
-          <table>
-            <thead>
+          <table className='w-full table-auto'>
+            <thead className='bg-gray-200'>
               <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Subtotal</th>
-                <th>Actions</th>
+                <th className='px-4 py-2'>Product</th>
+                <th className='px-4 py-2'>Price</th>
+                <th className='px-4 py-2'>Quantity</th>
+                <th className='px-4 py-2'>Subtotal</th>
+                <th className='px-4 py-2'>Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className='divide-y divide-gray-200'>
               {cartItems.map((item) => (
                 <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.price ? `$${item.price.toFixed(2)}` : ""}</td>
-                  <td>
+                  <td className='px-4 py-2'>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className='w-16 h-14 mr-2'
+                    />
+                    {item.name}
+                  </td>
+                  <td className='px-4 py-2'>
+                    {item.price ? `$${item.price.toFixed(2)}` : ""}
+                  </td>
+                  <td className='px-4 py-2'>
                     <input
                       type='number'
                       value={item.qty}
                       onChange={(event) => handleQuantityChange(item, event)}
+                      className='w-20 rounded-lg border-gray-400 border p-1'
                     />
                   </td>
-                  <td>
+                  <td className='px-4 py-2'>
                     {item.price ? `$${(item.price * item.qty).toFixed(2)}` : ""}
                   </td>
-                  <td>
-                    <button onClick={() => handleRemoveItem(item)}>
+                  <td className='px-4 py-2'>
+                    <button
+                      onClick={() => handleRemoveItem(item)}
+                      className='bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-lg'
+                    >
                       Remove
                     </button>
                   </td>
@@ -81,19 +96,34 @@ const CartScreen: React.FC = () => {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={3}>Subtotal:</td>
-                <td>${subtotal.toFixed(2)}</td>
+                <td colSpan={3} className='text-right pr-4 py-2 font-medium'>
+                  Subtotal:
+                </td>
+                <td className='px-4 py-2 font-medium'>
+                  ${subtotal.toFixed(2)}
+                </td>
                 <td></td>
               </tr>
               <tr>
-                <td colSpan={3}>Total:</td>
-                <td>${subtotal.toFixed(2)}</td>
+                <td colSpan={3} className='text-right pr-4 py-2 font-bold'>
+                  Total:
+                </td>
+                <td className='px-4 py-2 font-bold'>${subtotal.toFixed(2)}</td>
                 <td></td>
               </tr>
             </tfoot>
           </table>
-          <button onClick={() => dispatch(clearCart())}>Clear Cart</button>
-          <button>Checkout</button>
+          <div className='flex justify-between mt-4'>
+            <button
+              onClick={() => dispatch(clearCart())}
+              className='bg-gray-300 hover:bg-gray-400 text-gray-700 font-medium px-4 py-2 rounded-lg'
+            >
+              Clear Cart
+            </button>
+            <button className='bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg'>
+              Checkout
+            </button>
+          </div>
         </>
       )}
     </div>

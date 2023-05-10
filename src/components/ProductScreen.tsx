@@ -19,18 +19,33 @@ const ProductScreen: React.FC = () => {
     setQty(value);
   }, []);
 
-  const { data: product } = useGetProductByIdQuery(id);
+  const { data: product, isLoading } = useGetProductByIdQuery(id);
 
   const addToCartHandler = () => {
-    const { _id: productId, name: productName, price: productPrice } = product!;
+    const {
+      _id: productId,
+      name: productName,
+      price: productPrice,
+      image,
+    } = product!;
     dispatch(
-      addItem({ id: productId, name: productName, price: productPrice, qty })
+      addItem({
+        id: productId,
+        name: productName,
+        price: productPrice,
+        image,
+        qty,
+      })
     );
     navigate(`/cart/${id}?qty=${qty}`);
   };
 
   if (!product) {
-    return <div>No products found</div>;
+    return (
+      <div className='flex justify-center'>
+        <button className='btn btn-wide loading'>Loading</button>
+      </div>
+    );
   }
 
   return (

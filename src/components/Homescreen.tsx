@@ -1,7 +1,6 @@
 // import products from "../products";
 import Product from "./Product";
 import { useGetProductsQuery } from "../hooks/queries/productQueries";
-import { Item } from "../hooks/useTypes";
 
 interface MyError {
   message: string;
@@ -25,7 +24,7 @@ const Homescreen: React.FC = () => {
   return (
     <>
       <h1 className='text-2xl'>Latest Products</h1>
-      <div className='flex flex-wrap mx-6'>
+      <div className='flex flex-wrap my-2 mx-8'>
         {products?.map((product) => (
           <Product key={product._id} product={product} />
         ))}

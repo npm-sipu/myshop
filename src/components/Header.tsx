@@ -29,6 +29,12 @@ const Header = ({ isDarkMode, toggleDarkMode }: darkModeProp) => {
             </span>
             <p className='text-white'>Profile</p>
           </NavLink>
+          <NavLink className='mx-4 px-2 py-2 flex items-center' to='/auth'>
+            <span className='text-xl text-white'>
+              <CgProfile />
+            </span>
+            <p className='text-white'>Auth</p>
+          </NavLink>
           <NavLink className='mx-4 px-2 py-2 flex items-center' to='/cart'>
             <span className='text-xl text-white'>
               <AiOutlineShoppingCart />

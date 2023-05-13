@@ -13,6 +13,7 @@ import RootLayout from "./components/RootLayout";
 import Profile from "./components/Profile";
 import ProductScreen from "./components/ProductScreen";
 import CartScreen from "./components/CartScreen";
+import LoginScreen from "./components/LoginScreen";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -34,7 +35,7 @@ function App() {
         <Route path='product/:id' element={<ProductScreen />} />
         <Route path='cart/:id?' element={<CartScreen />} />
         <Route path='about' element={<About />} />
-
+        <Route path='auth' element={<LoginScreen />} />
         <Route path='profile' element={<Profile />} />
       </Route>
     )

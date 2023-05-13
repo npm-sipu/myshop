@@ -1,12 +1,15 @@
 import { configureStore, Action, ThunkAction } from '@reduxjs/toolkit';
 import cartReducer from './slices/cartSlice';
+import userReducer from './slices/userSlice'
 import { ThunkDispatch } from 'redux-thunk';
 import thunkMiddleware from 'redux-thunk';
 import { AnyAction } from 'redux';
 
+
 const store = configureStore({
   reducer: {
     cart: cartReducer,
+    user : userReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(thunkMiddleware),

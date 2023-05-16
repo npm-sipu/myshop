@@ -19,3 +19,18 @@ export interface CartItem {
     qty: number;
     image: string
   }
+
+  export interface LoginData {
+    email: string;
+    password: string;
+  }
+  
+  export interface AuthState {
+    loading: boolean;
+    error: string | null;
+    isAuthenticated: boolean;
+    user: {
+      name: string;
+      email: string;
+    } | null;
+  }

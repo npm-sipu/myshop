@@ -19,7 +19,7 @@ const ProductScreen: React.FC = () => {
     setQty(value);
   }, []);
 
-  const { data: product, isLoading } = useGetProductByIdQuery(id);
+  const { data: product } = useGetProductByIdQuery(id);
 
   const addToCartHandler = () => {
     const {

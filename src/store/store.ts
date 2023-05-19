@@ -36,9 +36,8 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore, Action, ThunkAction } from '@reduxjs/toolkit';
 import cartReducer from './slices/cartSlice';
 import authReducer from './slices/authSlice'
-import { ThunkDispatch } from 'redux-thunk';
 import thunkMiddleware from 'redux-thunk';
-import { AnyAction } from 'redux';
+
 
 
 const store = configureStore({
@@ -60,10 +59,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
-// export type AppDispatch = ThunkDispatch<RootState, void, AnyAction>;
 
-// type DispatchFunc = () => AppDispatch
-// export const useAppDispatch: DispatchFunc = useDispatch()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 

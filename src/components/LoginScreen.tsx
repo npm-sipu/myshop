@@ -3,7 +3,7 @@ import Input from "./Input";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { selectIsAuthenticated } from "../store/slices/authSlice";
-import { login } from "../store/slices/authSlice";
+import { login, register } from "../store/slices/authSlice";
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +32,11 @@ const LoginScreen = () => {
     );
   }, []);
 
-  const register = useCallback(async () => {}, [email, name, password, login]);
+  const registerHandler = useCallback(async () => {
+    dispatch(register({ name, email, password }));
+    console.log("registration clicked");
+    navigate("/");
+  }, [email, name, password, login]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -75,7 +79,7 @@ const LoginScreen = () => {
               />
             </div>
             <button
-              onClick={variant === "login" ? loginHandler : register}
+              onClick={variant === "login" ? loginHandler : registerHandler}
               className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'
             >
               {variant === "login" ? "Log In" : "Register"}

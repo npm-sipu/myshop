@@ -1,7 +1,6 @@
 import { createSelector, createSlice, ThunkAction, AnyAction } from '@reduxjs/toolkit';
 import { RootState, useAppDispatch } from '../store';
 import instance from '../../hooks/axios/userApi';
-import { AxiosError } from 'axios';
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -17,6 +16,7 @@ interface AuthState {
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
+  name?: string;
 }
 
 const initialState: AuthState = {
@@ -53,6 +53,26 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       localStorage.removeItem('token');
     },
+    registerStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    registerSuccess: (state, { payload }) => {
+      state.token = payload.token;
+      state.isAuthenticated = true;
+      state.loading = false;
+      state.error = null;
+      state.name = payload.name; // Set the name field with payload.name
+      localStorage.setItem('token', payload.token);
+      console.log('Auth state after register:', state.token);
+    },
+    registerFail: (state, { payload }) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.error = payload;
+      state.name = undefined; // Reset the name field to undefined in case of failure
+      localStorage.removeItem('token');
+    },
   },
 });
 
@@ -63,7 +83,7 @@ export const selectIsAuthenticated = createSelector(
   (auth) => auth.isAuthenticated
 );
 
-export const { loginStart, loginSuccess, loginFail, logout } = authSlice.actions;
+export const { loginStart, loginSuccess, loginFail, logout, registerStart, registerSuccess, registerFail} = authSlice.actions;
 
 
 
@@ -84,7 +104,29 @@ export const login = (data: { email: string; password: string }): AppThunk => as
   }
 };
 
+export const register = (data: { name: string; email: string; password: string }): AppThunk => async (dispatch) => {
+  try {
+    dispatch(registerStart());
 
+    const response = await instance.post("api/users/", data);
+    const responseData = response.data;
+    console.log(responseData);
+
+    dispatch(registerSuccess(responseData));
+    localStorage.setItem("userInfo", JSON.stringify(responseData));
+  } catch (error: any) {
+    console.log(error.message);
+    dispatch(registerFail(error.message));
+  }
+};
+
+export const logoutFunc = (): AppThunk => async () => {
+  try {
+    localStorage.removeItem('userInfo');
+  } catch (error: any) {
+    console.log(error.message);
+  }
+};
 
 export default authSlice.reducer;
 

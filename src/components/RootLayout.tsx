@@ -1,21 +1,14 @@
 import { Outlet } from "react-router";
 import Header from "./Header";
 
-interface darkModeProp {
-  isDarkMode: boolean;
-  toggleDarkMode: () => void;
-}
-
-const RootLayout: React.FC<darkModeProp> = ({ isDarkMode, toggleDarkMode }) => {
+const RootLayout: React.FC = () => {
   return (
     <div>
-      <Header toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} />
+      <Header />
 
       <main
         className={`
-          ${
-            isDarkMode ? "bg-gray-700 text-white" : "bg-white text-black"
-          } h-screen box-border
+           h-screen box-border
         `}
       >
         <Outlet />

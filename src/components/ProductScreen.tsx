@@ -4,7 +4,6 @@ import { useState, useCallback, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addItem } from "../store/slices/cartSlice";
-import { Item } from "../hooks/useTypes";
 import Rating from "./Rating";
 
 const ProductScreen: React.FC = () => {
@@ -54,17 +53,17 @@ const ProductScreen: React.FC = () => {
         <Link to='/'>Go Back</Link>
       </button>
 
-      <div className='flex'>
-        <div>
+      <div className='flex gap-4'>
+        <div className='p-4'>
           <img src={product?.image} alt='product' />
         </div>
-        <div>
+        <div className='p-4'>
           <h3>{product?.name}</h3>
           <Rating product={product} />
           <h4>${product?.price}</h4>
           <p>{product?.description}</p>
         </div>
-        <div>
+        <div className='p-4'>
           <h4>${product?.price}</h4>
           <p>
             {" "}

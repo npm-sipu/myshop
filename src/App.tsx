@@ -16,21 +16,9 @@ import CartScreen from "./components/CartScreen";
 import LoginScreen from "./components/LoginScreen";
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-
-  const toggleDarkMode = useCallback(
-    () => setIsDarkMode(!isDarkMode),
-    [isDarkMode]
-  );
-
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route
-        path='/'
-        element={
-          <RootLayout isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-        }
-      >
+      <Route path='/' element={<RootLayout />}>
         <Route index element={<Homescreen />} />
         <Route path='product/:id' element={<ProductScreen />} />
         <Route path='cart/:id?' element={<CartScreen />} />
@@ -40,8 +28,6 @@ function App() {
       </Route>
     )
   );
-
-  // {isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"}
 
   return <RouterProvider router={router} />;
 }

@@ -17,6 +17,7 @@ interface AuthState {
   loading: boolean;
   error: string | null;
   name?: string;
+  email?: string;
 }
 
 const initialState: AuthState = {
@@ -40,7 +41,6 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = null;
       localStorage.setItem('token', payload.token);
-      console.log('Auth state after login:', state.token);
     },
     loginFail: (state, { payload }) => {
       state.loading = false;
@@ -64,7 +64,6 @@ const authSlice = createSlice({
       state.error = null;
       state.name = payload.name; // Set the name field with payload.name
       localStorage.setItem('token', payload.token);
-      console.log('Auth state after register:', state.token);
     },
     registerFail: (state, { payload }) => {
       state.loading = false;
@@ -73,8 +72,22 @@ const authSlice = createSlice({
       state.name = undefined; // Reset the name field to undefined in case of failure
       localStorage.removeItem('token');
     },
+    userUpdateStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    userUpdateSuccess: (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+      state.name = payload.name; // Update the name field with the updated name
+      state.email = payload.email; // Update the email field with the updated email
+    },
+    userUpdateFail: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
   },
-});
+},);
 
 export const selectAuth = (state: RootState) => state.auth;
 
@@ -83,7 +96,7 @@ export const selectIsAuthenticated = createSelector(
   (auth) => auth.isAuthenticated
 );
 
-export const { loginStart, loginSuccess, loginFail, logout, registerStart, registerSuccess, registerFail} = authSlice.actions;
+export const { loginStart, loginSuccess, loginFail, logout, registerStart, registerSuccess, registerFail, userUpdateStart,userUpdateSuccess, userUpdateFail} = authSlice.actions;
 
 
 
@@ -117,6 +130,29 @@ export const register = (data: { name: string; email: string; password: string }
   } catch (error: any) {
     console.log(error.message);
     dispatch(registerFail(error.message));
+  }
+};
+
+export const userUpdate = (data: { name: string; email: string; password: string }): AppThunk => async (dispatch, getState) => {
+  try {
+    dispatch(userUpdateStart());
+
+    const { token } = selectAuth(getState()); // Retrieve the token from the current user
+
+    const response = await instance.put("api/users/profile", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const responseData = response.data;
+    console.log(responseData);
+
+    dispatch(userUpdateSuccess(responseData));
+    localStorage.setItem("userInfo", JSON.stringify(responseData));
+  } catch (error: any) {
+    console.log(error.message);
+    dispatch(userUpdateFail(error.message));
   }
 };
 
